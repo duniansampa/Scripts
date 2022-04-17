@@ -6,17 +6,23 @@ import csv
 #see https://console.cloud.google.com/
 
 radius = 100000 #km
-type = 'restaurant|bar'
-location = '40.73161387439148,-74.14866312026871'
+type = 'food'
+newark = '40.73161387439148,-74.14866312026871'
+harrison = "40.73927771267584,-74.157386600653"
+springfield = "40.69201684539105,-74.34814061026131"
+elizabeth = "40.66405437353767,-74.20852363222934"
+timesquare = "40.75798787636964,-73.98555333131311"
+
+location = elizabeth
 key='AIzaSyBweRvfYm2BU9MLYVXvNToMxUkpxYgJqQQ'
-params = {'keyword': 'restaurants', 'location': location , 'radius': radius, 'type': 'restaurant', 'key': key}
+params = {'keyword': 'restaurant', 'location': location , 'radius': radius, 'type': type, 'key': key}
 page_number = 0
 
 header = ["business_name", "addres_1", "addres_1", "city", "state", "postal_code", "phone_number", "website", "status"]
 
 def write_to_file(data):
     with open('restaurant_data.csv', 'a', encoding='UTF8', newline='') as f:
-        writer = csv.writer(f)
+        writer = csv.writer(f, delimiter = ";")
 
         # write the header
         writer.writerow(data)
