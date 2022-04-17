@@ -5,16 +5,17 @@ import csv
 #see https://developers.google.com/maps/documentation/places/web-service/search-nearby
 #see https://console.cloud.google.com/
 
-radius = 15000 #km
+radius = 100000 #km
+type = 'restaurant|bar'
 location = '40.73161387439148,-74.14866312026871'
 key='AIzaSyBweRvfYm2BU9MLYVXvNToMxUkpxYgJqQQ'
-params = {'keyword': 'restaurant', 'location': location , 'radius': radius, 'type': 'restaurant', 'key': key}
+params = {'keyword': 'restaurants', 'location': location , 'radius': radius, 'type': 'restaurant', 'key': key}
 page_number = 0
 
 header = ["business_name", "addres_1", "addres_1", "city", "state", "postal_code", "phone_number", "website", "status"]
 
 def write_to_file(data):
-    with open('restaurant_data.csv', 'w', encoding='UTF8', newline='') as f:
+    with open('restaurant_data.csv', 'a', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
 
         # write the header
@@ -43,9 +44,9 @@ while True:
             restaurant_details = r2.json()
             details_result = restaurant_details['result']
             restaurant_info['business_name'] = details_result['name']
-            restaurant_info['website'] = details_result['website']
-            restaurant_info['status'] = details_result['business_status']
-            restaurant_info['phone_number'] = details_result['formatted_phone_number']
+            restaurant_info['website'] = details_result['website'] if 'website' in details_result else ''
+            restaurant_info['status'] = details_result['business_status'] if 'business_status' in details_result else ''
+            restaurant_info['phone_number'] = details_result['formatted_phone_number'] if 'formatted_phone_number' in details_result else ''
             street_number = ""
             for adr_components in details_result['address_components']:
                 if 'street_number' in adr_components['types']:
